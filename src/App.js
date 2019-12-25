@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -9,7 +8,16 @@ class App extends Component {
     super();
     // now our App gets access to the state property after calling Super
     this.state ={
-      string : "Hello kishan"
+      string : "Hello kishan",
+      monster : [
+        {
+          name : "kishan",
+          id : "1"
+        },{
+          name : "zombie",
+          id :"2"
+        }
+      ]
     }
       
     
@@ -18,17 +26,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+      
            <p>{this.state.string}</p>
            <p>{this.state.string}</p>
 
            <button onClick={() => {this.setState({string :" hello gupta ji "})}}>CLick me</button>
         
-        </header>
+        {
+          this.state.monster.map(monster => (
+          <h1 key={monster.id}>{monster.name}</h1>
+          ) 
+          
+        )
+        }
+      
       </div>
     );
   }
