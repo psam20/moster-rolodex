@@ -1,47 +1,38 @@
 import React, {Component} from 'react';
+import {CardList} from './components/card-list/card-list.component'
+import {Search} from './components/SearchBox/search.component'
 import './App.css';
 
 class App extends Component {
-  
   constructor(){
-    // Super method calls the constructor method on the Component class 
     super();
-    // now our App gets access to the state property after calling Super
-    this.state ={
-      string : "Hello kishan",
-      monster : [
-        {
-          name : "kishan",
-          id : "1"
-        },{
-          name : "zombie",
-          id :"2"
-        }
-      ]
-    }
-      
-    
-  }
-  
-  render() {
-    return (
-      <div className="App">
-      
-           <p>{this.state.string}</p>
-           <p>{this.state.string}</p>
+    this.state = {
+     
+      monsters : [],
+      SearchField : ''
+    };
 
-           <button onClick={() => {this.setState({string :" hello gupta ji "})}}>CLick me</button>
-        
-        {
-          this.state.monster.map(monster => (
-          <h1 key={monster.id}>{monster.name}</h1>
-          ) 
-          
-        )
-        }
-      
-      </div>
-    );
   }
+  componentDidMount(){
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response =>response.json())
+    .then(users => this.setState({monsters : users }));
+  }
+ render(){
+   const {monsters , SearchField} = this.state;
+   const filteredMonsters = monsters.filter(monster =>
+    monster.name.toLowerCase().includes(SearchField.toLowerCase())
+    );
+   return(
+     <div className="App">
+       <h1> Monsters Rolodex</h1>
+        <Search placeholder="search monsters" handleChange={e => this.setState({SearchField :e.target.value})} />
+         
+          
+          <CardList monsters={filteredMonsters} />
+     </div>
+   )
+ }
 }
+
 export default App;
